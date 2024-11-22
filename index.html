@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link rel="icon" type="image/png" href="img/ic_app.png">
+  <title>Nusantara.ai</title>
+  <link rel="stylesheet" href="app/des/des.style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: -100%;
+      top: 0;
+      width: 350px;
+      height: 100%;
+      background: linear-gradient(135deg, #1e1e2f, #292948);
+      color: white;
+      z-index: 1000;
+      transition: left 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar .logo i {
+      font-size: 1.8rem;
+      margin-right: 10px;
+    }
+
+    .sidebar .logo span {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .sidebar .description {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
+      color: #ccc;
+    }
+
+    .sidebar button, .sidebar a {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      padding: 15px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s;
+      margin-bottom: 10px;
+    }
+
+    .sidebar button:hover, .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+
+    .sidebar i {
+      margin-right: 10px;
+    }
+
+    .share-icons {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .share-icons a {
+      color: white;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .share-icons a:hover {
+      color: #f39c12;
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* Main Content */
+    .content {
+      margin-left: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .content iframe {
+      flex: 1;
+      border: none;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #1e1e2f, #292948);
+      border: none;
+      color: white;
+      padding: 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .toggle-btn i {
+      font-size: 1.2rem;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="logo">
+      <i class="fas fa-rocket"></i>
+      <span>FR_PROJECT</span>
+    </div>
+    <p class="description">
+      Selamat datang di Fabot.ai! Jadikan hidup Anda lebih mudah dengan fitur chatbot kami.
+    </p>
+    <button onclick="window.location='app/credit.html'">
+      <i class="fas fa-info-circle"></i>
+      Credit
+    </button>
+    <button onclick="window.location='https://saweria.co/FarelAlfareza'">
+      <i class="fas fa-donate"></i>
+      Donate
+    </button>
+    <div class="share-icons">
+      <a href="#" onclick="shareTo('facebook')" title="Bagikan di Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#" onclick="shareTo('twitter')" title="Bagikan di Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" onclick="shareTo('whatsapp')" title="Bagikan di WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" onclick="shareTo('telegram')" title="Bagikan di Telegram"><i class="fab fa-telegram"></i></a>
+      <a href="#" onclick="shareTo('linkedin')" title="Bagikan di LinkedIn"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <a href="https://www.instagram.com/farel.project_5/profilecard/?igsh=MTduanM5dTczeTYwMQ==" target="_blank">
+      <i class="fab fa-instagram"></i>
+      Follow on Instagram
+    </a>
+    <a href="https://www.tiktok.com/@farel.project_5?_t=8raiJx9zrc2&_r=1" target="_blank">
+      <i class="fab fa-tiktok"></i>
+      Follow on TikTok
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vaxa6wzK0IBk3gXIr237" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+      Follow on WhatsApp
+    </a>
+  </div>
+  <div class="network-err">
+    <content id="container--net">
+      <img controls width="200" height="200" src="img/lost_connect.png">
+      <h2>failed to connect to server</h2>
+      <p>Please reload the page</p>
+      <button onclick="restart()">Restart</button>
+    </content>
+  </div>
+  
+  <div class="popup--container">
+  <content>
+    <h2>NUS.Ai</h2>
+    <p>Sekarang Telah tersedia di android, silahkan unduk aplikasi untuk fitur yang lebih lengkap.</p>
+    <button>Download</button>
+  </content>
+  </div>
+  
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <button class="toggle-btn" id="toggleBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <iframe src="https://chat.cxgenie.ai?aid=453c30c6-3775-4817-9181-3e673eb23cbe&lang=en"></iframe>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const adBanner = document.getElementById('adBanner');
+
+    // Toggle Sidebar and Overlay
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    // Close Sidebar when clicking on the overlay
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+    sidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // Sharing Function
+    function shareTo(platform) {
+      const url = encodeURIComponent(window.location.href);
+      const shareLinks = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+        twitter: `https://twitter.com/intent/tweet?url=${url}`,
+        whatsapp: `https://api.whatsapp.com/send?text=${url}`,
+        telegram: `https://t.me/share/url?url=${url}`,
+        linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${url}`
+      };
+
+      if (shareLinks[platform]) {
+        window.open(shareLinks[platform], '_blank', 'width=600,height=400');
+      } else {
+        alert('Platform tidak didukung!');
+      }
+    }
+  </script>
+  <script srx="ads.js"></script>
+  <script src="app/resources/network.js"></script>
+</body>
+</html>
